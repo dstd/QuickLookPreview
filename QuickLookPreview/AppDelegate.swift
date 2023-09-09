@@ -15,28 +15,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
-        showPreview(uri: NSURL(fileURLWithPath: filename))
+        showPreview(uris: [NSURL(fileURLWithPath: filename)])
         return true
     }
 
-    private var previewUri: NSURL?
+    func application(_ sender: NSApplication, openFiles filenames: [String]) {
+        showPreview(uris: filenames.map { NSURL(fileURLWithPath: $0) })
+    }
+
+    private var previewUris = [NSURL]()
 }
 
 extension AppDelegate {
-    func showPreview(uri: NSURL) {
+    func showPreview(uris: [NSURL]) {
         guard let panel = QLPreviewPanel.shared() else { return }
-        self.previewUri = uri
+        self.previewUris = uris
         panel.makeKeyAndOrderFront(self)
     }
 }
 
 extension AppDelegate: QLPreviewPanelDataSource {
     func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
-        return 1
+        return previewUris.count
     }
 
     func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
-        return previewUri
+        return previewUris[index]
     }
 
     override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
@@ -51,6 +55,7 @@ extension AppDelegate: QLPreviewPanelDataSource {
     override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
         panel.delegate = nil
         panel.dataSource = nil
+        previewUris = []
 
         NSApplication.shared.terminate(nil)
     }
