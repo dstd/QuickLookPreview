@@ -6,7 +6,8 @@
 //
 
 import Cocoa
-import QuickLookUI
+import QuickLook
+import Quartz
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
