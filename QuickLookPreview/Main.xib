@@ -19,6 +19,26 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="QuickLookPreview" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
+                            <menuItem title="File Types Association" id="sqp-8a-Ody">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="File Types Association" id="XfP-ad-dxt">
+                                    <items>
+                                        <menuItem title="Associate All" id="7gw-zD-ZbU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="associateWithFileTypes:" target="Voe-Tx-rLC" id="S7h-mu-gwT"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Unassociate All" id="uUv-T4-9KI">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="unassociateWithFileTypes:" target="Voe-Tx-rLC" id="lVH-RQ-BKT"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="q9U-o2-hF9"/>
                             <menuItem title="Quit QuickLookPreview" keyEquivalent="q" id="4sb-4s-VLi">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
