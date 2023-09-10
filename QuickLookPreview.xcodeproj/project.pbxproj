@@ -18,6 +18,7 @@
 		7CC257B22A95F71D00B6742A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CC257B72A95F71D00B6742A /* QuickLookPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickLookPreview.entitlements; sourceTree = "<group>"; };
 		7CDB5A392AAD3661002B316C /* Main.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
+		7CDB5A3B2AAD3D91002B316C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +51,7 @@
 		7CC257AD2A95F71C00B6742A /* QuickLookPreview */ = {
 			isa = PBXGroup;
 			children = (
+				7CDB5A3B2AAD3D91002B316C /* Info.plist */,
 				7CC257AE2A95F71C00B6742A /* AppDelegate.swift */,
 				7CC257B22A95F71D00B6742A /* Assets.xcassets */,
 				7CC257B72A95F71D00B6742A /* QuickLookPreview.entitlements */,
@@ -262,6 +264,7 @@
 				DEVELOPMENT_TEAM = G84U56F244;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickLookPreview/Info.plist;
 				INFOPLIST_KEY_LSUIElement = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = Main;
@@ -294,6 +297,7 @@
 				DEVELOPMENT_TEAM = G84U56F244;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickLookPreview/Info.plist;
 				INFOPLIST_KEY_LSUIElement = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = Main;
