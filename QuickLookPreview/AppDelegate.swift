@@ -49,7 +49,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    @IBOutlet weak var disableWhenInFocusItem: NSMenuItem!
+    @IBAction func toggleDisableWhenInFocus(_ sender: Any) {
+        disableAssociationsWhenInFocus = !disableAssociationsWhenInFocus
+        UserDefaults.standard.setValue(disableAssociationsWhenInFocus, forKey: keyUnassociateWhenFocused)
+    }
+
     private var previewUris = [NSURL]()
+    private var disableAssociationsWhenInFocus = UserDefaults.standard.bool(forKey: keyUnassociateWhenFocused)
+    private var disabledAssociation = false
+}
+
+extension AppDelegate: NSUserInterfaceValidations {
+    func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        if item.action == #selector(toggleDisableWhenInFocus), let menuItem = item as? NSMenuItem {
+            menuItem.state = disableAssociationsWhenInFocus ? .on : .off
+        }
+
+        return true
+    }
 }
 
 extension AppDelegate {
@@ -76,14 +94,22 @@ extension AppDelegate: QLPreviewPanelDataSource {
     override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
         panel.delegate = self
         panel.dataSource = self
+        if disableAssociationsWhenInFocus {
+            disableAssociation()
+        }
     }
 
     override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
+        enableAssociation()
         panel.delegate = nil
         panel.dataSource = nil
         previewUris = []
 
         NSApplication.shared.terminate(nil)
+    }
+
+    func windowDidResignKey(_ notification: Notification) {
+        enableAssociation()
     }
 }
 
@@ -108,9 +134,43 @@ extension AppDelegate {
         let prevHandler = UserDefaults.standard.string(forKey: keyForSavedType(type)) ?? dummyId
         LSSetDefaultRoleHandlerForContentType(type as CFString, .viewer, prevHandler as CFString)
     }
+
+    private func disableAssociation() {
+        guard let ownId = Bundle.main.bundleIdentifier else { return }
+        guard !disabledAssociation else { return }
+        disabledAssociation = true
+
+        for type in supportedTypes {
+            guard let current = LSCopyDefaultRoleHandlerForContentType(type as CFString, .viewer)?.takeRetainedValue() as? String else { continue }
+            guard current.caseInsensitiveCompare(ownId) == .orderedSame else { continue }
+
+            UserDefaults.standard.setValue(current, forKey: keyForDisabledType(type))
+            let prevHandler = UserDefaults.standard.string(forKey: keyForSavedType(type)) ?? dummyId
+            LSSetDefaultRoleHandlerForContentType(type as CFString, .viewer, prevHandler as CFString)
+        }
+    }
+
+    private func enableAssociation() {
+        guard let ownId = Bundle.main.bundleIdentifier else { return }
+        guard disabledAssociation else { return }
+        disabledAssociation = false
+
+        for type in supportedTypes {
+            guard let current = LSCopyDefaultRoleHandlerForContentType(type as CFString, .viewer)?.takeRetainedValue() as? String else { continue }
+            let prevHandler = UserDefaults.standard.string(forKey: keyForSavedType(type)) ?? dummyId
+            guard current.caseInsensitiveCompare(prevHandler) == .orderedSame else { continue }
+
+            let disabledKey = keyForDisabledType(type)
+            guard UserDefaults.standard.string(forKey: disabledKey) != nil else { continue }
+            UserDefaults.standard.removeObject(forKey: disabledKey)
+            LSSetDefaultRoleHandlerForContentType(type as CFString, .viewer, ownId as CFString)
+        }
+    }
 }
 
+private func keyForDisabledType(_ type: String) -> String { "disabled." + type }
 private func keyForSavedType(_ type: String) -> String { "saved." + type }
+private let keyUnassociateWhenFocused = "unassFocused"
 
 private let dummyId = ""
 private let supportedTypes = [

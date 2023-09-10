@@ -11,7 +11,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="QuickLookPreview" customModuleProvider="target"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="QuickLookPreview" customModuleProvider="target">
+            <connections>
+                <outlet property="disableWhenInFocusItem" destination="m1K-N1-izq" id="jll-Mj-nFo"/>
+            </connections>
+        </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6" userLabel="Main">
             <items>
@@ -33,6 +37,13 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="unassociateWithFileTypes:" target="Voe-Tx-rLC" id="lVH-RQ-BKT"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="sAU-xV-jNH"/>
+                                        <menuItem title="Disable When in Focus" id="m1K-N1-izq">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleDisableWhenInFocus:" target="Voe-Tx-rLC" id="YXC-s1-2Ae"/>
                                             </connections>
                                         </menuItem>
                                     </items>
