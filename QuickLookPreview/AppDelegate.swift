@@ -108,7 +108,9 @@ extension AppDelegate: QLPreviewPanelDataSource {
 
         NSApplication.shared.terminate(nil)
     }
+}
 
+extension AppDelegate: NSWindowDelegate {
     func windowDidResignKey(_ notification: Notification) {
         enableAssociation()
     }
@@ -181,6 +183,9 @@ private let supportedTypes = [
     "com.microsoft.bmp",
     "com.compuserve.gif",
     "com.adobe.photoshop-image",
+
+    "public.movie",
+    "com.apple.quicktime-movie",
     "public.mpeg",
     "public.mpeg-2-video",
     "public.mpeg-4",
