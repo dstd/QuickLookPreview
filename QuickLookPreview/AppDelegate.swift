@@ -74,7 +74,9 @@ extension AppDelegate: NSUserInterfaceValidations {
 extension AppDelegate {
     func showPreview(uris: [NSURL]) {
         guard let panel = QLPreviewPanel.shared() else { return }
-        self.previewUris = uris
+        self.previewUris += uris
+        panel.reloadData()
+        panel.currentPreviewItemIndex = self.previewUris.count - 1
         panel.makeKeyAndOrderFront(self)
     }
 }
